@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" MinWidth="525" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="350" Width="525" MinWidth="525" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbName}">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -41,7 +41,7 @@
 				</StackPanel>
 				
 				<ListBox Grid.Row="1" BorderThickness="0" MinWidth="200"
-												ItemsSource="{Binding ElementName=Tasks}">
+												ItemsSource="{Binding Path=Tasks}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -59,15 +59,15 @@
 
 			<StackPanel Grid.Column="2">
 				<Label Content="Name" Margin="50 0 0 0"/>
-				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1"/>
+				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1" FocusableChanged="tbName_FocusableChanged"/>
 				<Label Content="Priority" Margin="50 0 0 0"/>
-				<ComboBox Name="cbPriority" Margin="50 0 100 0" BorderThickness="1">
+				<ComboBox Name="cbPriority" Margin="50 0 100 0" BorderThickness="1" FocusableChanged="cbPriority_FocusableChanged">
 					<ComboBoxItem Content="Low"/>
 					<ComboBoxItem Content="Medium"/>
 					<ComboBoxItem Content="High"/>
 				</ComboBox>
 				<Label Content="Deadline" Margin="50 0 0 0"/>
-				<DatePicker Name="dpDeadline" Margin="50 0 100 0" BorderThickness="1"/>
+				<DatePicker Name="dpDeadline" Margin="50 0 100 0"/>
 				<Label Content="Comment" Margin="50 0 0 0"/>
 				<TextBox Name="tbComment" Margin="50 0 100 40"/>
 				<Button Content="Add" Click="Button_Click" Margin="50 0 100 0" Height="30"/>

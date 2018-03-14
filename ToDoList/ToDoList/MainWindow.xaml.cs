@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 //------------------------------------------------
 namespace ToDoList
 {
@@ -22,20 +24,40 @@ namespace ToDoList
     public partial class MainWindow : Window
     {
         public ObservableCollection<Task> Tasks { get; set; }
+
+        SolidColorBrush alertCol;
+        SolidColorBrush standCol;
+
+        XmlWriterSettings settings;
+        
+
         //------------------------------------------------    
         public MainWindow()
         {
             InitializeComponent();
 
+            DataContext = this;
+
             Tasks = new ObservableCollection<Task>();
+
+            dpDeadline.DisplayDateStart = DateTime.Now.Date;
+            dpDeadline.DisplayDate = DateTime.Now.Date;
+
+            alertCol = new SolidColorBrush(Colors.Red);
+            standCol = new SolidColorBrush(Colors.Black);
+
+            settings = new XmlWriterSettings();
+            settings.Indent = true;
         } 
         //------------------------------------------------
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (tbName.Text == "" || cbPriority.Text == "" || dpDeadline.Text == "")
+            if (tbName.Text == "" || cbPriority.Text == "")
             {
-                tbName.BorderBrush = new SolidColorBrush(Colors.Red);
-                MessageBox.Show("Fill Name, Priority, Deadline");
+                tbName.BorderBrush = alertCol;
+                cbPriority.BorderBrush = alertCol;
+                MessageBox.Show("Fill Name, Priority", "Warning!", MessageBoxButton.OK);
+                return;
             }
 
             Tasks.Add(new Task
@@ -58,6 +80,16 @@ namespace ToDoList
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        //------------------------------------------------
+        private void tbName_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            tbName.BorderBrush = standCol;
+        }
+        //------------------------------------------------
+        private void cbPriority_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            cbPriority.BorderBrush = standCol;
         }
     }
 }
