@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="350" Width="525" MinWidth="525" WindowStartupLocation="CenterScreen">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -14,7 +14,11 @@
 		</Grid.RowDefinitions>
 
 		<Menu Grid.Row="0">
-			<MenuItem Header="File"/>
+			<MenuItem Header="File">
+				<MenuItem Header="New" Click="MenuItem_Click"/>
+				<MenuItem Header="Open" Click="MenuItem_Click"/>
+				<MenuItem Header="Load" Click="MenuItem_Click"/>
+			</MenuItem>
 		</Menu>
 
 		<Grid Grid.Row="1">
@@ -40,29 +44,33 @@
 												ItemsSource="{Binding ElementName=Tasks}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-
+							<StackPanel Orientation="Horizontal">
+								<Label Content="{Binding Path=Name}"/>
+								<Label Content="{Binding Path=Priority}"/>
+								<Label Content="{Binding Path=Deadline}"/>
+							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
 				
-			</Grid>
+			</Grid> 
 
 			<GridSplitter Grid.Column="1" Width="5"/>
 
 			<StackPanel Grid.Column="2">
-				<Label Content="Name"/>
-				<TextBox/>
-				<Label Content="Priority"/>
-				<ComboBox>
+				<Label Content="Name" Margin="50 0 0 0"/>
+				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1"/>
+				<Label Content="Priority" Margin="50 0 0 0"/>
+				<ComboBox Name="cbPriority" Margin="50 0 100 0" BorderThickness="1">
 					<ComboBoxItem Content="Low"/>
 					<ComboBoxItem Content="Medium"/>
 					<ComboBoxItem Content="High"/>
 				</ComboBox>
-				<Label Content="Deadline"/>
-				<DatePicker/>
-				<Label Content="Comment"/>
-				<TextBox/>
-				<Button Content="Add"/>
+				<Label Content="Deadline" Margin="50 0 0 0"/>
+				<DatePicker Name="dpDeadline" Margin="50 0 100 0" BorderThickness="1"/>
+				<Label Content="Comment" Margin="50 0 0 0"/>
+				<TextBox Name="tbComment" Margin="50 0 100 40"/>
+				<Button Content="Add" Click="Button_Click" Margin="50 0 100 0" Height="30"/>
 			</StackPanel>
 
 		</Grid>
@@ -77,11 +85,11 @@
 
 			<Label Grid.Column="0" Content="The name of the last task added:" Foreground="Gray"/>
 
-			<Label Grid.Column="1"/>
+			<Label Grid.Column="1" Name="LastTaskName"/>
 
 			<Label Grid.Column="2" Content="Number of tasks:" Foreground="Gray"/>
 
-			<Label Grid.Column="3"/>
+			<Label Grid.Column="3" Name="TaskCount"/>
 
 		</Grid>
 
