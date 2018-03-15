@@ -13,3 +13,18 @@ C:\Users\Mahm_iz81\Source\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.cs
 C:\Users\Mahm_iz81\Source\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.exe
 C:\Users\Mahm_iz81\Source\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.pdb
 C:\Users\Mahm_iz81\Source\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.csprojResolveAssemblyReference.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\bin\Debug\ToDoList.exe.config
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\bin\Debug\ToDoList.exe
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\bin\Debug\ToDoList.pdb
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.csprojResolveAssemblyReference.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\MainWindow.g.cs
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\App.g.cs
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList_MarkupCompile.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList_MarkupCompile.lref
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\MainWindow.baml
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.g.resources
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.Properties.Resources.resources
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.csproj.GenerateResource.Cache
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.csproj.CoreCompileInputs.cache
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.exe
+C:\Users\Ali\Documents\Visual Studio 2017\Repos\ToDoList\ToDoList\ToDoList\obj\Debug\ToDoList.pdb

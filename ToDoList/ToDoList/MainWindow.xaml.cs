@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
-//using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+using System.Xml.Linq;
 //------------------------------------------------
 namespace ToDoList
 {
@@ -28,7 +30,8 @@ namespace ToDoList
         SolidColorBrush alertCol;
         SolidColorBrush standCol;
 
-        XmlWriterSettings settings;
+        SaveFileDialog saveFileDialog;
+        OpenFileDialog openFileDialog;
         //------------------------------------------------    
         public MainWindow()
         {
@@ -39,46 +42,23 @@ namespace ToDoList
             Tasks = new ObservableCollection<Task>();
 
             //   dpDeadline.DisplayDateStart = DateTime.Now.Date;
-             dpDeadline.SelectedDate = DateTime.Now.Date.AddDays(10);
+            dpDeadline.SelectedDate = DateTime.Now.Date.AddDays(10);
 
             alertCol = new SolidColorBrush(Colors.Red);
             standCol = new SolidColorBrush(Colors.Black);
 
-            settings = new XmlWriterSettings();
-            settings.Indent = true;
+            saveFileDialog = new SaveFileDialog();
+            openFileDialog = new OpenFileDialog();
+
+            saveFileDialog.Filter = "Xml files (.xml)|*.xml";
+            openFileDialog.Filter = "Xml files (.xml)|*.xml";
         }
         //------------------------------------------------
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool nameEmpty = false;
-            bool priorityEmpty = false;
-
             if (tbName.Text == "")
             {
                 tbName.BorderBrush = alertCol;
-                nameEmpty = true;
-            }
-
-            if (cbPriority.Text == "")
-            {
-                bDeadline.BorderBrush = alertCol;
-                priorityEmpty = true;
-            }
-
-            if (nameEmpty && priorityEmpty)
-            {
-                MessageBox.Show("Fill Name and Priority", "Warning!", MessageBoxButton.OK);
-                return;
-            }
-            else 
-            if (priorityEmpty)
-            {
-                MessageBox.Show("Fill Priority", "Warning!", MessageBoxButton.OK);
-                return;
-            }
-            else
-            if (nameEmpty)
-            {
                 MessageBox.Show("Fill Name", "Warning!", MessageBoxButton.OK);
                 return;
             }
@@ -95,8 +75,6 @@ namespace ToDoList
             TaskCount.Content = Tasks.Count;
 
             tbName.Text = "";
-            cbPriority.Text = "";
-            dpDeadline.Text = "";
             tbComment.Text = "";
         }
         //------------------------------------------------
@@ -105,24 +83,85 @@ namespace ToDoList
             tbName.BorderBrush = standCol;
         }
         //------------------------------------------------
-        private void cbPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void SaveToXml()
         {
-            bDeadline.BorderBrush = standCol;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var xmldoc = new XDocument(new XElement("Tasks")); //new XDeclaration("1.0", "utf-8", "yes")
+
+                foreach (var item in Tasks)
+                {
+                    xmldoc.Root.Add(new XElement("task", new XElement("name", item.Name),     // new XAttribute("Id", item.Id)
+                                                        new XElement("priority", item.Priority),
+                                                        new XElement("deadline", item.Deadline),
+                                                        new XElement("comment", item.Comment)));
+                }
+
+                xmldoc.Save(saveFileDialog.FileName);
+            }
         }
         //------------------------------------------------
         private void MenuNew_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (Tasks.Count != 0)
+            {
+                SaveToXml();
+                Tasks.Clear();
+            }
+        }
+        //------------------------------------------------
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (Tasks.Count != 0)
+                SaveToXml();
+
+            //    XmlTextWriter writer = new XmlTextWriter(saveFileDialog.FileName, Encoding.UTF8);
+
+            //    writer.WriteStartElement("Tasks");
+
+            //    foreach (var item in Tasks)
+            //    {
+            //        writer.WriteStartElement("task");
+
+            //        writer.WriteAttributeString("name", item.Name);
+            //        writer.WriteAttributeString("priority", item.Priority);
+            //        writer.WriteAttributeString("deadline", item.Deadline);
+            //        writer.WriteAttributeString("comment", item.Comment);
+
+            //        writer.WriteEndElement();
+            //    }
+
+            //    writer.WriteEndElement();
+            //    writer.Close();
         }
         //------------------------------------------------
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(sender.ToString());
+            if (Tasks.Count != 0)
+            {
+                SaveToXml();
+                Tasks.Clear();
+            }
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+
+            }
         }
         //------------------------------------------------
-        private void MenuLoad_Click(object sender, RoutedEventArgs e)
+        private void lbTasks_KeyDown(object sender, KeyEventArgs e)
         {
-            MessageBox.Show(sender.ToString());
+            if (e.Key == Key.Enter)
+            {
+                string info;
+
+                info = "Name:\t\t" + Tasks[0].Name + '\n';
+                info += "Priority:\t\t" + Tasks[0].Priority + '\n';
+                info += "Deadline:\t" + Tasks[0].Deadline + '\n';
+                info += "Comment:\t" + Tasks[0].Comment + '\n';
+
+                MessageBox.Show(info);
+            }
         }
     }
 }

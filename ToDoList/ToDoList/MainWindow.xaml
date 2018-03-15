@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ToDoList"
 								xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" MinWidth="525" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbName}">
+        Title="MainWindow" Height="350" Width="500" MinWidth="525" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbName}">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -17,8 +17,8 @@
 		<Menu Grid.Row="0">
 			<MenuItem Header="File">
 				<MenuItem Header="New" Click="MenuNew_Click"/>
+				<MenuItem Header="Save" Click="MenuSave_Click"/>
 				<MenuItem Header="Open" Click="MenuOpen_Click"/>
-				<MenuItem Header="Load" Click="MenuLoad_Click"/>
 			</MenuItem>
 		</Menu>
 
@@ -42,7 +42,7 @@
 				</StackPanel>
 
 				<ListBox Grid.Row="1" BorderThickness="0" MinWidth="200"
-												ItemsSource="{Binding Path=Tasks}">
+												ItemsSource="{Binding Path=Tasks}" HorizontalContentAlignment="Stretch" Name="lbTasks" KeyDown="lbTasks_KeyDown">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -56,19 +56,17 @@
 
 			</Grid>
 
-			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
+			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" IsTabStop="False"/>
 
 			<StackPanel Grid.Column="2" MinWidth="200">
-				<Label Content="Name" Margin="50 0 0 0"/> 
+				<Label Content="Name" Margin="50 0 0 0"/>
 				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1" KeyDown="tbName_KeyDown"/>
 				<Label Content="Priority" Margin="50 0 0 0"/>
-				<Border Margin="50 0 100 0" BorderThickness="1" Name="bDeadline">
-					<ComboBox Name="cbPriority" BorderThickness="0" SelectionChanged="cbPriority_SelectionChanged">
-						<ComboBoxItem Content="Low"/>
-						<ComboBoxItem Content="Medium"/>
-						<ComboBoxItem Content="High"/>
-					</ComboBox>
-				</Border>
+				<ComboBox Margin="50 0 100 0"  Name="cbPriority" SelectedIndex="0">
+					<ComboBoxItem Content="Low"/>
+					<ComboBoxItem Content="Medium"/>
+					<ComboBoxItem Content="High"/>
+				</ComboBox>
 				<Label Content="Deadline" Margin="50 0 0 0"/>
 				<DatePicker Name="dpDeadline" Margin="50 0 100 0" DisplayDateStart="{x:Static sys:DateTime.Now}"/>
 				<Label Content="Comment" Margin="50 0 0 0"/>
