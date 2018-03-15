@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
+								xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" MinWidth="525" WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbName}">
 	<Grid>
@@ -15,17 +16,17 @@
 
 		<Menu Grid.Row="0">
 			<MenuItem Header="File">
-				<MenuItem Header="New" Click="MenuItem_Click"/>
-				<MenuItem Header="Open" Click="MenuItem_Click"/>
-				<MenuItem Header="Load" Click="MenuItem_Click"/>
+				<MenuItem Header="New" Click="MenuNew_Click"/>
+				<MenuItem Header="Open" Click="MenuOpen_Click"/>
+				<MenuItem Header="Load" Click="MenuLoad_Click"/>
 			</MenuItem>
 		</Menu>
 
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition MinWidth="200" Width="0.5*"/>
 				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition MinWidth="200"/>
+				<ColumnDefinition MinWidth="200" Width="*"/>
 			</Grid.ColumnDefinitions>
 
 			<Grid Grid.Column="0">
@@ -34,12 +35,12 @@
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 
-				<StackPanel Grid.Column="0" Orientation="Horizontal">
+				<StackPanel Grid.Column="0" Orientation="Horizontal" Background="AliceBlue">
 					<Label Content="Name" FontWeight="Bold"/>
 					<Label Content="Priority" FontWeight="Bold"/>
 					<Label Content="Deadline" FontWeight="Bold"/>
 				</StackPanel>
-				
+
 				<ListBox Grid.Row="1" BorderThickness="0" MinWidth="200"
 												ItemsSource="{Binding Path=Tasks}">
 					<ListBox.ItemTemplate>
@@ -52,24 +53,26 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-				
-			</Grid> 
 
-			<GridSplitter Grid.Column="1" Width="5"/>
+			</Grid>
 
-			<StackPanel Grid.Column="2">
-				<Label Content="Name" Margin="50 0 0 0"/>
-				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1" FocusableChanged="tbName_FocusableChanged"/>
+			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
+
+			<StackPanel Grid.Column="2" MinWidth="200">
+				<Label Content="Name" Margin="50 0 0 0"/> 
+				<TextBox Name="tbName" Margin="50 0 100 0" BorderThickness="1" KeyDown="tbName_KeyDown"/>
 				<Label Content="Priority" Margin="50 0 0 0"/>
-				<ComboBox Name="cbPriority" Margin="50 0 100 0" BorderThickness="1" FocusableChanged="cbPriority_FocusableChanged">
-					<ComboBoxItem Content="Low"/>
-					<ComboBoxItem Content="Medium"/>
-					<ComboBoxItem Content="High"/>
-				</ComboBox>
+				<Border Margin="50 0 100 0" BorderThickness="1" Name="bDeadline">
+					<ComboBox Name="cbPriority" BorderThickness="0" SelectionChanged="cbPriority_SelectionChanged">
+						<ComboBoxItem Content="Low"/>
+						<ComboBoxItem Content="Medium"/>
+						<ComboBoxItem Content="High"/>
+					</ComboBox>
+				</Border>
 				<Label Content="Deadline" Margin="50 0 0 0"/>
-				<DatePicker Name="dpDeadline" Margin="50 0 100 0"/>
+				<DatePicker Name="dpDeadline" Margin="50 0 100 0" DisplayDateStart="{x:Static sys:DateTime.Now}"/>
 				<Label Content="Comment" Margin="50 0 0 0"/>
-				<TextBox Name="tbComment" Margin="50 0 100 40"/>
+				<TextBox Name="tbComment" Margin="50 0 100 25" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Height="40"/>
 				<Button Content="Add" Click="Button_Click" Margin="50 0 100 0" Height="30"/>
 			</StackPanel>
 

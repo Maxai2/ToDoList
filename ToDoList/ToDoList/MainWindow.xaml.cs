@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
-using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+//using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 //------------------------------------------------
 namespace ToDoList
 {
@@ -29,8 +29,6 @@ namespace ToDoList
         SolidColorBrush standCol;
 
         XmlWriterSettings settings;
-        
-
         //------------------------------------------------    
         public MainWindow()
         {
@@ -40,23 +38,48 @@ namespace ToDoList
 
             Tasks = new ObservableCollection<Task>();
 
-            dpDeadline.DisplayDateStart = DateTime.Now.Date;
-            dpDeadline.DisplayDate = DateTime.Now.Date;
+            //   dpDeadline.DisplayDateStart = DateTime.Now.Date;
+             dpDeadline.SelectedDate = DateTime.Now.Date.AddDays(10);
 
             alertCol = new SolidColorBrush(Colors.Red);
             standCol = new SolidColorBrush(Colors.Black);
 
             settings = new XmlWriterSettings();
             settings.Indent = true;
-        } 
+        }
         //------------------------------------------------
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (tbName.Text == "" || cbPriority.Text == "")
+            bool nameEmpty = false;
+            bool priorityEmpty = false;
+
+            if (tbName.Text == "")
             {
                 tbName.BorderBrush = alertCol;
-                cbPriority.BorderBrush = alertCol;
-                MessageBox.Show("Fill Name, Priority", "Warning!", MessageBoxButton.OK);
+                nameEmpty = true;
+            }
+
+            if (cbPriority.Text == "")
+            {
+                bDeadline.BorderBrush = alertCol;
+                priorityEmpty = true;
+            }
+
+            if (nameEmpty && priorityEmpty)
+            {
+                MessageBox.Show("Fill Name and Priority", "Warning!", MessageBoxButton.OK);
+                return;
+            }
+            else 
+            if (priorityEmpty)
+            {
+                MessageBox.Show("Fill Priority", "Warning!", MessageBoxButton.OK);
+                return;
+            }
+            else
+            if (nameEmpty)
+            {
+                MessageBox.Show("Fill Name", "Warning!", MessageBoxButton.OK);
                 return;
             }
 
@@ -77,19 +100,29 @@ namespace ToDoList
             tbComment.Text = "";
         }
         //------------------------------------------------
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        //------------------------------------------------
-        private void tbName_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void tbName_KeyDown(object sender, KeyEventArgs e)
         {
             tbName.BorderBrush = standCol;
         }
         //------------------------------------------------
-        private void cbPriority_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void cbPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cbPriority.BorderBrush = standCol;
+            bDeadline.BorderBrush = standCol;
+        }
+        //------------------------------------------------
+        private void MenuNew_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        //------------------------------------------------
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
+        }
+        //------------------------------------------------
+        private void MenuLoad_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
         }
     }
 }
