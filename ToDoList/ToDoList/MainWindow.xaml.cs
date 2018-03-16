@@ -32,6 +32,8 @@ namespace ToDoList
 
         SaveFileDialog saveFileDialog;
         OpenFileDialog openFileDialog;
+
+
         //------------------------------------------------    
         public MainWindow()
         {
@@ -52,30 +54,8 @@ namespace ToDoList
 
             saveFileDialog.Filter = "Xml files (.xml)|*.xml";
             openFileDialog.Filter = "Xml files (.xml)|*.xml";
-        }
-        //------------------------------------------------
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (tbName.Text == "")
-            {
-                tbName.BorderBrush = alertCol;
-                MessageBox.Show("Fill Name", "Warning!", MessageBoxButton.OK);
-                return;
-            }
 
-            Tasks.Add(new Task
-            {
-                Name = tbName.Text,
-                Priority = cbPriority.Text,
-                Deadline = dpDeadline.Text,
-                Comment = tbComment.Text
-            });
 
-            LastTaskName.Content = tbName.Text;
-            TaskCount.Content = Tasks.Count;
-
-            tbName.Text = "";
-            tbComment.Text = "";
         }
         //------------------------------------------------
         private void tbName_KeyDown(object sender, KeyEventArgs e)
@@ -87,17 +67,17 @@ namespace ToDoList
         {
             if (saveFileDialog.ShowDialog() == true)
             {
-                var xmldoc = new XDocument(new XElement("Tasks")); //new XDeclaration("1.0", "utf-8", "yes")
+                XDocument xdocWrite = new XDocument(new XElement("Tasks")); //new XDeclaration("1.0", "utf-8", "yes")
 
                 foreach (var item in Tasks)
                 {
-                    xmldoc.Root.Add(new XElement("task", new XElement("name", item.Name),     // new XAttribute("Id", item.Id)
+                    xdocWrite.Root.Add(new XElement("task", new XElement("name", item.Name),     // new XAttribute("Id", item.Id)
                                                         new XElement("priority", item.Priority),
                                                         new XElement("deadline", item.Deadline),
                                                         new XElement("comment", item.Comment)));
                 }
 
-                xmldoc.Save(saveFileDialog.FileName);
+                xdocWrite.Save(saveFileDialog.FileName);
             }
         }
         //------------------------------------------------
@@ -107,6 +87,9 @@ namespace ToDoList
             {
                 SaveToXml();
                 Tasks.Clear();
+
+                lbLastTaskName.Content = "";
+                lbTaskCount.Content = "";
             }
         }
         //------------------------------------------------
@@ -139,29 +122,120 @@ namespace ToDoList
         {
             if (Tasks.Count != 0)
             {
-                SaveToXml();
+                SaveToXml(); 
                 Tasks.Clear();
+
+                lbLastTaskName.Content = "";
+                lbTaskCount.Content = "";
             }
 
             if (openFileDialog.ShowDialog() == true)
             {
+                XDocument xdocRead = XDocument.Load(openFileDialog.FileName);
 
+                foreach (XElement item in xdocRead.Root.Elements())
+                {
+                    Tasks.Add(new Task
+                    {
+                        Name = item.Element("name").Value,
+                        Priority = item.Element("priority").Value,
+                        Deadline = item.Element("deadline").Value,
+                        Comment = item.Element("comment").Value
+                    });
+                }
+
+                lbTaskCount.Content = Tasks.Count;
             }
         }
         //------------------------------------------------
         private void lbTasks_KeyDown(object sender, KeyEventArgs e)
         {
+            int num = lbTasks.SelectedIndex;
+
             if (e.Key == Key.Enter)
             {
                 string info;
 
-                info = "Name:\t\t" + Tasks[0].Name + '\n';
-                info += "Priority:\t\t" + Tasks[0].Priority + '\n';
-                info += "Deadline:\t" + Tasks[0].Deadline + '\n';
-                info += "Comment:\t" + Tasks[0].Comment + '\n';
+                info = "Name:\t\t" + Tasks[num].Name + '\n';
+                info += "Priority:\t\t" + Tasks[num].Priority + '\n';
+                info += "Deadline:\t" + Tasks[num].Deadline + '\n';
+                info += "Comment:\t" + Tasks[num].Comment + '\n';
 
                 MessageBox.Show(info);
             }
+        }
+        //------------------------------------------------
+        private void bAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbName.Text == "")
+            {
+                tbName.BorderBrush = alertCol;
+                MessageBox.Show("Fill Name", "Warning!", MessageBoxButton.OK);
+                return;
+            }
+
+            Tasks.Add(new Task
+            {
+                Name = tbName.Text,
+                Priority = cbPriority.Text,
+                Deadline = dpDeadline.Text,
+                Comment = tbComment.Text
+            });
+
+            lbLastTaskName.Content = tbName.Text;
+            lbTaskCount.Content = Tasks.Count;
+
+            tbName.Text = "";
+            tbComment.Text = "";
+
+            tbName.Focus();
+        }
+        //------------------------------------------------
+        private void bDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var ans = MessageBox.Show("Are you sure you want to delete?", "", MessageBoxButton.YesNo);
+
+            switch (ans)
+            {
+                case MessageBoxResult.None:
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Yes:
+                    Tasks.RemoveAt(lbTasks.SelectedIndex);
+                    break;
+            }
+        }
+        //------------------------------------------------
+        private void tbEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbTasks.SelectedItem != null)
+            {
+                int num = lbTasks.SelectedIndex;
+
+                if (tbEdit.IsChecked == true)
+                {
+                    tbName.Text = Tasks[num].Name;
+                    cbPriority.Text = Tasks[num].Priority;
+                    dpDeadline.Text = Tasks[num].Deadline;
+                    tbComment.Text = Tasks[num].Comment;
+                }
+                else
+                {
+                    Tasks[num].Name = tbName.Text;
+                    Tasks[num].Priority = cbPriority.Text;
+                    Tasks[num].Deadline = dpDeadline.Text;
+                    Tasks[num].Comment = tbComment.Text;
+
+                    lbTasks.Items.Refresh();
+
+                    tbName.Text = "";
+                    tbComment.Text = "";
+                }
+
+                tbName.Focus();
+            }
+            else
+                tbEdit.IsChecked = false;
         }
     }
 }

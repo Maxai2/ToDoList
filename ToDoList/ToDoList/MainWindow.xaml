@@ -42,7 +42,7 @@
 				</StackPanel>
 
 				<ListBox Grid.Row="1" BorderThickness="0" MinWidth="200"
-												ItemsSource="{Binding Path=Tasks}" HorizontalContentAlignment="Stretch" Name="lbTasks" KeyDown="lbTasks_KeyDown">
+												ItemsSource="{Binding Path=Tasks}" HorizontalContentAlignment="Stretch" Name="lbTasks" KeyDown="lbTasks_KeyDown"> 
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -71,7 +71,18 @@
 				<DatePicker Name="dpDeadline" Margin="50 0 100 0" DisplayDateStart="{x:Static sys:DateTime.Now}"/>
 				<Label Content="Comment" Margin="50 0 0 0"/>
 				<TextBox Name="tbComment" Margin="50 0 100 25" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Height="40"/>
-				<Button Content="Add" Click="Button_Click" Margin="50 0 100 0" Height="30"/>
+				<Grid Margin="50 0 100 0" Height="30">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					
+					<Button Name="bAdd" Grid.Column="0" Content="Add" Click="bAdd_Click" Background="Green"/>
+					<ToggleButton Name="tbEdit" Grid.Column="1" Content="Edit" Click="tbEdit_Click" Background="Yellow"/>
+					<Button Name="bDelete" Grid.Column="2" Content="Delete" Click="bDelete_Click" Background="Red"/>
+				</Grid>
+
 			</StackPanel>
 
 		</Grid>
@@ -86,11 +97,11 @@
 
 			<Label Grid.Column="0" Content="The name of the last task added:" Foreground="Gray"/>
 
-			<Label Grid.Column="1" Name="LastTaskName"/>
+			<Label Grid.Column="1" Name="lbLastTaskName"/>
 
 			<Label Grid.Column="2" Content="Number of tasks:" Foreground="Gray"/>
 
-			<Label Grid.Column="3" Name="TaskCount"/>
+			<Label Grid.Column="3" Name="lbTaskCount"/>
 
 		</Grid>
 
